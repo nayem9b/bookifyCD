@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookify-server
+  namespace: bookify
+spec:
+  selector:
+    app: bookify-server
+  ports:
+    - name: http-5000  
+      port: 5000
+      targetPort: 5000
+      protocol: TCP
+  type: LoadBalancer

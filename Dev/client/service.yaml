@@ -7,12 +7,8 @@ spec:
   selector:
     app: bookify-client
   ports:
-    - name: http-3000   # << required
+    - name: http-3000  
       port: 3000
       targetPort: 3000
       protocol: TCP
-    # - name: http-4000   # << required
-    #   port: 4000
-    #   targetPort: 4000
-    #   protocol: TCP
   type: LoadBalancer

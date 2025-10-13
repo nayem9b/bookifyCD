@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: demo-list
+  namespace: argocd
+spec:
+  # The list generator lets you enumerate a static set of elements (apps).
+  generators:
+    - list:
+        elements:
+          - app: Client
+            path: Dev/client     # path in repo for this app
+          - app: Server
+            path: Dev/server   # path in repo for this app
+
+  # Template that will be used to generate individual Application CRs
+  template:
+    metadata:
+      # name template uses the element key 'app'
+      name: '{{app}}-list'
+    spec:
+      project: bookify
+      source:
+        repoURL: https://github.com/nayem9b/bookifyCD.git
+        targetRevision: main
+        path: '{{path}}'                # resolved from element
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: bookify
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
