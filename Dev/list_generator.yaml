@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: demo-list
+  name: bookify
   namespace: argocd
 spec:
   # The list generator lets you enumerate a static set of elements (apps).
   generators:
     - list:
         elements:
-          - app: Client
-            path: Dev/client     # path in repo for this app
-          - app: Server
-            path: Dev/server   # path in repo for this app
+          - app: client
+            path: Template/client     # path in repo for this app
+          - app: server
+            path: Template/server   # path in repo for this app
 
   # Template that will be used to generate individual Application CRs
   template:
@@ -21,7 +21,7 @@ spec:
     spec:
       project: bookify
       source:
-        repoURL: https://github.com/nayem9b/bookifyCD.git
+        repoURL: https://github.com/nayem9b/Bookify-serverside.git
         targetRevision: main
         path: '{{path}}'                # resolved from element
       destination:
