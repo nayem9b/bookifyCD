@@ -11,7 +11,9 @@ spec:
           - app: client
             path: Template/client     # path in repo for this app
           - app: server
-            path: Template/server   # path in repo for this app
+            path: Template/server
+          - app: payment
+            path: Template/payment     # path in repo for this app
 
   # Template that will be used to generate individual Application CRs
   template:
