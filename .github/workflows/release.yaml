@@ -1,0 +1,107 @@
+name: Release Bookify Server
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z]+.[0-9]+'  # For pre-releases like v1.0.0-alpha.1
+    branches:
+      - main
+
+env:
+  DOCKER_IMAGE: ghcr.io/${{ github.repository_owner }}/bookify-serverside
+  VERSION: ${{ github.ref_name }}
+
+
+permissions:
+  contents: write
+  pull-requests: read
+  packages: write
+  security-events: write
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          install: true
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_PAT }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          tags: |
+            type=raw,value=${{ env.VERSION }}
+            type=raw,value=latest
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ env.VERSION }}
+
+      - name: Generate Changelog
+        uses: mikepenz/release-changelog-builder-action@v3
+        id: changelog
+        with:
+          configuration: |
+            template: |
+              ## Changes
+              {{#each releases}}
+                {{#if @first}}
+                  {{#each merges}}
+                    - {{message}} ({{id}})
+                  {{/each}}
+                  {{#each commits}}
+                    - {{subject}} ({{id}})
+                  {{/each}}
+                {{/if}}
+              {{/each}}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Bookify Server ${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: ${{ startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-') }}
+          generate_release_notes: true
+          # files: |
+          #   dist/*
+          #   docker-compose.prod.yml
+
+      # - name: Notify Slack
+      #   if: always()
+      #   uses: rtCamp/action-slack-notify@v2
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     SLACK_COLOR: ${{ job.status == 'success' && '#36a64f' || '#ff0000' }}
+      #     SLACK_TITLE: 'Bookify Server ${{ env.VERSION }} ${{ job.status == 'success' && 'deployed successfully!' || 'deployment failed!' }}'
+      #     SLACK_MESSAGE: 'Release: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ env.VERSION }}'
