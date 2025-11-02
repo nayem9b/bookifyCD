@@ -10,6 +10,8 @@ spec:
         elements:
           - app: client
             path: Template/client     # path in repo for this app
+          - app: canary-client
+            path: Template/canary-client
           - app: server
             path: Template/server
           - app: payment
