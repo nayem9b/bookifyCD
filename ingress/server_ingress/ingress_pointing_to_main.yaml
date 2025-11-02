@@ -1,0 +1,30 @@
+# Ingress for Bookify main application
+# NOTE: For local Minikube testing without editing /etc/hosts, replace MINIKUBE_IP
+# in the host(s) below with the output of `minikube ip`. Example host produced:
+#   bookify.<MINIKUBE_IP>.nip.io
+# This allows you to access the ingress using a publicly-resolvable DNS (nip.io)
+# that maps the hostname to the Minikube node IP — no /etc/hosts edit required.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bookify-main
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # Disable SSL redirect for local testing (no TLS configured in Minikube)
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: bookify.MINIKUBE_IP.nip.io
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: bookify-main-service
+                port:
+                  number: 5000
