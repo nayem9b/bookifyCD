@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bookify-server
+  namespace: bookify
 spec:
   selector:
     matchLabels:
@@ -12,7 +13,6 @@ spec:
     metadata:
       labels:
         app: bookify-server
-    namespace: bookify
     spec:
       containers:
       - name: bookify-server
