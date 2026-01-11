@@ -2,12 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: bookify
-  namespace: argocd
+  namespace: default
 spec:
   description: Project for Bookify Client and Server
   sourceRepos:
     - https://github.com/nayem9b/Bookify-serverside.git
   destinations:
+    - namespace: default
+      server: https://kubernetes.default.svc
     - namespace: bookify
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
