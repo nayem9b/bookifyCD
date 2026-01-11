@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: bookify
-  namespace: argo
+  namespace: default
 spec:
   # The list generator lets you enumerate a static set of elements (apps).
   generators:

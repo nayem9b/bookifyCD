@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: bookify-server
-        image: nayem9b/bookify-server-github-build:latest
+        image: nayem9b/bookify-backend-github-build:latest
         # volumeMounts:
         #   - name: config-volume
         #     mountPath: /opt/config
