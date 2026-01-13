@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: release
+
+resources:
+  - ../../base
+
+images:
+  - name: nayem9b/bookify-client-github-build
+    newTag: feature-1-f7a2b9c   # Prod/release has feature-1
+
+patches:
+- path: deployment-patch.yaml
+  target:
+    kind: Deployment
+    name: bookify-client

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookify-client
+spec:
+  replicas: 3  # More replicas for production
+  template:
+    spec:
+      containers:
+      - name: bookify-client
+        env:
+        - name: ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "300m"
+          limits:
+            memory: "256Mi"
+            cpu: "600m"

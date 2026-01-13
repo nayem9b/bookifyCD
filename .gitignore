@@ -147,9 +147,10 @@ kubectl-edit*.yaml
 
 # Local development
 local/
-dev/
+# dev/
 development/
 
 # ArgoCD specific
 argo-cd/
-argocd/
+
+secret.yaml
