@@ -11,10 +11,10 @@ spec:
         env:
         - name: ENV
           value: "staging"
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "200m"
-          limits:
-            memory: "128Mi"
-            cpu: "400m"
+        # resources:
+        #   requests:
+        #     memory: "64Mi"
+        #     cpu: "200m"
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "400m"

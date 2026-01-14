@@ -8,7 +8,7 @@ resources:
 
 images:
   - name: nayem9b/bookify-client-github-build
-    newTag: feature-2-8b1d4a7   # Staging testing feature-2
+    newTag: 0.0.1  
 
 patches:
 - path: deployment-patch.yaml
