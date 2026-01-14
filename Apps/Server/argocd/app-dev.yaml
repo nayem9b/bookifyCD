@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: bookify-client-dev
+  name: bookify-server-dev
   namespace: argocd
 spec:
   project: default
