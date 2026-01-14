@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookify-server
+spec:
+  replicas: 1  # Fewer replicas for dev
+  template:
+    spec:
+      containers:
+      - name: bookify-server
+        env:
+        - name: ENV
+          value: "development"
+        # resources:
+        #   requests:
+        #     memory: "32Mi"
+        #     cpu: "100m"
+        #   limits:
+        #     memory: "64Mi"
+        #     cpu: "200m"
