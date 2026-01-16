@@ -2,8 +2,9 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: bookify-server-monitor
+  namespace: monitoring
   labels:
-    release: kube-prometheus-stack
+    release: my-kube-prometheus-stack
 spec:
   selector:
     matchLabels:
@@ -11,7 +12,27 @@ spec:
   endpoints:
     - port: http-5000
       path: /metrics
-      interval: 10s
+      interval: 15s
+      scrapeTimeout: 10s
+      honorLabels: true
   namespaceSelector:
     matchNames:
-      - bookify
+      - dev
+
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: bookify-server-monitor
+#   namespace: bookify
+#   labels:
+#     release: kube-prometheus-stack
+# spec:
+#   selector:
+#     matchLabels:
+#       app: bookify-server
+#   endpoints:
+#     - port: http-5000
+#       path: /metrics
+#       interval: 10s
+#       # Adding honorLabels to preserve labels from the target
+#       honorLabels: true
