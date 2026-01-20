@@ -3,6 +3,7 @@
 ## Development Environment
 
 ### dev.env
+
 ```
 ENVIRONMENT=development
 CLIENT_IMAGE_TAG=latest-dev
@@ -19,6 +20,7 @@ HELM_VALUES_FILE=values-dev.yaml
 ## Staging Environment
 
 ### staging.env
+
 ```
 ENVIRONMENT=staging
 CLIENT_IMAGE_TAG=latest-staging
@@ -35,6 +37,7 @@ HELM_VALUES_FILE=values-staging.yaml
 ## Production Environment
 
 ### prod.env
+
 ```
 ENVIRONMENT=production
 CLIENT_IMAGE_TAG=v1.0.0
@@ -52,6 +55,7 @@ ARGOCD_SYNC_OPTIONS=Prune=true,SelfHeal=true,Validate=true
 ## Docker Environment File
 
 ### .env
+
 ```
 # General Settings
 PROJECT_NAME=bookify
@@ -80,10 +84,12 @@ TLS_CERT_SECRET=tls-certificate
 IMAGE_SCANNING_ENABLED=true
 VULNERABILITY_THRESHOLD=critical
 
-# Database Settings
-DATABASE_HOST=postgres.bookify.svc.cluster.local
-DATABASE_PORT=5432
-DATABASE_SSLMODE=require
+# Database Settings (MongoDB)
+DATABASE_HOST=mongodb.database.svc.cluster.local
+DATABASE_PORT=27017
+DATABASE_NAME=sheba_db
+MONGODB_USERNAME=admin
+MONGODB_PASSWORD=supersecretpassword
 
 # Cache Settings
 REDIS_HOST=redis.bookify.svc.cluster.local
@@ -98,19 +104,22 @@ VAULT_HOST=vault.bookify.com
 ## Kubernetes ConfigMap Template
 
 ### configmap.yaml
+
 ```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: bookify-config
-  namespace: {{ .Values.namespace }}
+  namespace: { { .Values.namespace } }
 data:
-  ENVIRONMENT: {{ .Values.environment | quote }}
-  LOG_LEVEL: {{ .Values.logLevel | quote }}
-  DATABASE_HOST: {{ .Values.database.host | quote }}
-  REDIS_HOST: {{ .Values.redis.host | quote }}
-  API_URL: {{ .Values.api.url | quote }}
-  JWT_SECRET_NAME: {{ .Values.jwt.secretName | quote }}
-  SENTRY_DSN: {{ .Values.sentry.dsn | quote }}
-  ANALYTICS_ID: {{ .Values.analytics.id | quote }}
+  ENVIRONMENT: { { .Values.environment | quote } }
+  LOG_LEVEL: { { .Values.logLevel | quote } }
+  MONGODB_HOST: { { .Values.database.host | quote } }
+  MONGODB_PORT: { { .Values.database.port | quote } }
+  MONGODB_NAME: { { .Values.database.name | quote } }
+  REDIS_HOST: { { .Values.redis.host | quote } }
+  API_URL: { { .Values.api.url | quote } }
+  JWT_SECRET_NAME: { { .Values.jwt.secretName | quote } }
+  SENTRY_DSN: { { .Values.sentry.dsn | quote } }
+  ANALYTICS_ID: { { .Values.analytics.id | quote } }
 ```
