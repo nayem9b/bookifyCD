@@ -154,3 +154,80 @@ development/
 argo-cd/
 
 secret.yaml
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .tfvars files, which are likely to contain sensitive data
+# *.tfvars
+# *.tfvars.json
+
+# Local .terraform.lock.hcl file
+.terraform.lock.hcl
+
+# Output files
+*.out
+*.tfplan
+.terraform/terraform-*.plan
+
+# IDE specific files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Terraform plan files
+plan.txt
+plan.json
+
+# Backup files
+*.backup
+*.bak
+terraform.tfstate.backup
+
+# Generated graphs
+*.dot
+*.svg
+
+# Log files
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Environment files (keep .env templates, but ignore actual .env files)
+.env
+.env.local
+!.env.example
+!.env.template
+
+# kubeconfig files
+kubeconfig
+kubeconfig-*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node modules (if using terraform tools)
+node_modules/
+
+# Shell script executables
+!deploy.sh
+!*.sh
