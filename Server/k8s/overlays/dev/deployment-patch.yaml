@@ -2,9 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bookify-server
+  labels:
+    app: bookify-server
 spec:
   replicas: 1  # Fewer replicas for dev
   template:
+    metadata:
+      labels:
+        app: bookify-server
     spec:
       containers:
       - name: bookify-server

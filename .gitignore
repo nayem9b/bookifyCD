@@ -117,6 +117,7 @@ target/
 .gradle/
 gradle-app.setting
 node_modules/
+secret-fixed.yaml
 
 # Terraform
 .terraform/

@@ -1,8 +1,8 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bookify-server
+  namespace: dev
 spec:
   selector:
     matchLabels:
@@ -14,56 +14,58 @@ spec:
         app: bookify-server
     spec:
       containers:
-      - name: bookify-server
-        image: nayem9b/bookify-backend-github-build:latest
-        # volumeMounts:
-        #   - name: config-volume
-        #     mountPath: /opt/config
-        env:
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: bookify-backend-secret
-              key: DATABASE_URL
-        - name: DB_USER
-          valueFrom:
-            secretKeyRef:
-              name: bookify-backend-secret
-              key: DB_USER
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: bookify-backend-secret
-              key: DB_PASSWORD 
-        - name: REDIS_URL
-          valueFrom:
-            secretKeyRef:
-              name: bookify-backend-secret
-              key: REDIS_URL
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: bookify-backend-secret
-              key: JWT_SECRET    
-        imagePullPolicy: Always
-        # livenessProbe:
-        #   httpGet:
-        #     path: /health
-        #     port: 3000
-        #   initialDelaySeconds: 10
-        #   periodSeconds: 10
-        #   timeoutSeconds: 2
-        #   failureThreshold: 3
-        # readinessProbe:
-        #   httpGet:
-        #     path: /health
-        #     port: 3000
-        #   initialDelaySeconds: 5
-        #   periodSeconds: 5
-        #   timeoutSeconds: 2
-        #   failureThreshold: 3
-        ports:
-        - containerPort: 5000
+        - name: bookify-server
+          image: nayem9b/bookify-backend-github-build:latest
+          # volumeMounts:
+          #   - name: config-volume
+          #     mountPath: /opt/config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: bookify-backend-secret
+                  key: DATABASE_URL
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: bookify-backend-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bookify-backend-secret
+                  key: DB_PASSWORD
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: bookify-backend-secret
+                  key: REDIS_URL
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: bookify-backend-secret
+                  key: JWT_SECRET
+          imagePullPolicy: Always
+          # livenessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 3000
+          #   initialDelaySeconds: 10
+          #   periodSeconds: 10
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health
+          #     port: 3000
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 5
+          #   timeoutSeconds: 2
+          #   failureThreshold: 3
+          ports:
+            - name: http-5000
+              containerPort: 5000
+              protocol: TCP
       # volumes:
       # - name: config-volume
       #   configMap:
