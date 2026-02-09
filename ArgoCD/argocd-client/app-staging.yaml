@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: 'https://github.com/nayem9b/bookifyCD.git'
     targetRevision: HEAD
-    path: Apps/Client/k8s/overlays/staging
+    path: Client/k8s/overlays/staging
   destination:
     server: https://kubernetes.default.svc
     namespace: staging
