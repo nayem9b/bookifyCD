@@ -140,8 +140,5 @@ The platform includes comprehensive monitoring capabilities:
 - Periodic review of access controls
 - Backup and disaster recovery procedures
 
-## Support
-For support, please contact the DevSecOps team or raise an issue in the project repository with detailed information about the problem encountered.
-
 ## License
 This project is licensed under the [LICENSE] - see the LICENSE file for details.
